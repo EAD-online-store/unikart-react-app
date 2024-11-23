@@ -4,8 +4,8 @@ FROM node:20 AS build
 WORKDIR /app
 
 # Use build argument to inject VITE_API_URL during the build
-ARG VITE_API_URL
-ENV VITE_API_URL=${VITE_API_URL}
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 # Install dependencies
 COPY package*.json ./
