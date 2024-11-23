@@ -1,32 +1,30 @@
-# Use the official Node.js 20 image
-FROM node:20
+# Stage 1: Build stage
+FROM node:20 AS build
 
-# Create and set the working directory
 WORKDIR /app
 
-# Build arguments to accept environment variables during build
+# Use build argument to inject VITE_API_URL during the build
 ARG VITE_API_URL
-
-# Set environment variables within the container
 ENV VITE_API_URL=${VITE_API_URL}
 
-# Copy package.json and package-lock.json files
-COPY package*.json ./ 
-
-# Install the dependencies
+# Install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the application code
-COPY . . 
+# Copy the rest of the app
+COPY . ./
 
-# Print the environment variables to verify they are set correctly
-RUN echo "VITE_API_URL=$VITE_API_URL"
-
-# Build the application
+# Build the application (production build)
 RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 3000
+# Stage 2: Production stage (Nginx to serve the app)
+FROM nginx:alpine AS production
 
-# Start the application using vite preview in production mode
-CMD ["vite", "preview", "--port", "3000"]
+# Copy the build output from the build stage to Nginx's html folder
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80 for Nginx to serve the app
+EXPOSE 80
+
+# Command to run Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]
