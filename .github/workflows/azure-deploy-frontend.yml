@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,3 +31,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: unikart.azurecr.io/unikart-frontend-app:latest
+          build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
