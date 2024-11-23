@@ -11,13 +11,13 @@ ARG VITE_API_URL
 ENV VITE_API_URL=${VITE_API_URL}
 
 # Copy package.json and package-lock.json files
-COPY package*.json ./
+COPY package*.json ./ 
 
 # Install the dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY . .
+COPY . . 
 
 # Print the environment variables to verify they are set correctly
 RUN echo "VITE_API_URL=$VITE_API_URL"
@@ -28,5 +28,5 @@ RUN npm run build
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application using vite preview in production mode
+CMD ["vite", "preview", "--port", "3000"]
