@@ -1,4 +1,4 @@
-export const baseURL = import.meta.env.VITE_BASE_URL;
+export const baseURL = import.meta.env.VITE_API_URL;
 
 console.log("base Url", baseURL);
 
