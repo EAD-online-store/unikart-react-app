@@ -9,7 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL }} # Pass the API URL from GitHub Secrets
 
     steps:
       # Checkout the code
