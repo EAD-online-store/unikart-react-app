@@ -5,7 +5,10 @@ WORKDIR /app
 
 # Use build argument to inject VITE_API_URL during the build
 ARG VITE_API_BASE_URL
+ARG VITE_STRIPE_PUBLIC_KEY
+
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ENV VITE_STRIPE_PUBLIC_KEY=${VITE_STRIPE_PUBLIC_KEY}
 
 # Install dependencies
 COPY package*.json ./
