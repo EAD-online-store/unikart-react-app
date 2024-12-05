@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../utils/UploadImage';
 import Loading from '../components/Loading';
@@ -11,7 +11,7 @@ import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import successAlert from '../utils/SuccessAlert';
-import { useEffect } from 'react';
+
 
 const UploadProduct = () => {
   const [data,setData] = useState({
@@ -181,51 +181,62 @@ const UploadProduct = () => {
                     className='bg-blue-50 p-2 outline-none border focus-within:border-primary-200 rounded resize-none'
                   />
                 </div>
+                
                 <div>
-                    <p className='font-medium'>Image</p>
-                    <div>
-                      <label htmlFor='productImage' className='bg-blue-50 h-24 border rounded flex justify-center items-center cursor-pointer'>
-                          <div className='text-center flex justify-center items-center flex-col'>
+                  <p className='font-medium'>Images</p>
+                  <div className='flex justify-between w-full gap-4'>
+                    {/* Loop to create 5 square upload boxes */}
+                    {[...Array(5)].map((_, index) => (
+                      <div 
+                        key={index} 
+                        className='flex-1 aspect-square bg-blue-50 border relative group'
+                      >
+                        <label htmlFor={`productImage${index}`} className='w-full h-full cursor-pointer'>
+                          <div className='flex justify-center items-center h-full'>
                             {
-                              imageLoading ?  <Loading/> : (
+                              imageLoading ? (
+                                <Loading />
+                              ) : data.image[index] ? (
                                 <>
-                                   <FaCloudUploadAlt size={35}/>
-                                   <p>Upload Image</p>
+                                  <img
+                                    src={data.image[index]}
+                                    alt={`Uploaded Image ${index}`}
+                                    className='w-full h-full object-cover'
+                                    onClick={() => setViewImageURL(data.image[index])}
+                                  />
+                                  <div 
+                                    onClick={() => handleDeleteImage(index)} 
+                                    className='absolute top-0 right-0 p-1 bg-red-600 hover:bg-red-600 rounded text-white hidden group-hover:block cursor-pointer'
+                                  >
+                                    <MdDelete />
+                                  </div>
                                 </>
+                              ) : (
+                                <div className='text-center flex justify-center items-center flex-col'>
+                                  <FaCloudUploadAlt size={35} className='mb-2' />
+                                  <p>Upload Image</p>
+                                </div>
                               )
                             }
                           </div>
-                          <input 
+                          <input
                             type='file'
-                            id='productImage'
+                            id={`productImage${index}`}
                             className='hidden'
                             accept='image/*'
-                            onChange={handleUploadImage}
+                            onChange={(e) => handleUploadImage(e, index)}
+                            disabled={data.image.length >= 5 || data.image[index]}  // Disable if max 5 or already uploaded
                           />
-                      </label>
-                      {/**display uploded image*/}
-                      <div className='flex flex-wrap gap-4'>
-                        {
-                          data.image.map((img,index) =>{
-                              return(
-                                <div key={img+index} className='h-20 mt-1 w-20 min-w-20 bg-blue-50 border relative group'>
-                                  <img
-                                    src={img}
-                                    alt={img}
-                                    className='w-full h-full object-scale-down cursor-pointer' 
-                                    onClick={()=>setViewImageURL(img)}
-                                  />
-                                  <div onClick={()=>handleDeleteImage(index)} className='absolute bottom-0 right-0 p-1 bg-red-600 hover:bg-red-600 rounded text-white hidden group-hover:block cursor-pointer'>
-                                    <MdDelete/>
-                                  </div>
-                                </div>
-                              )
-                          })
-                        }
+                        </label>
                       </div>
-                    </div>
-
+                    ))}
+                  </div>
+                  {/** Show a message if the upload limit of 5 images is reached */}
+                  {data.image.length >= 5 && (
+                    <p className='text-red-600 mt-2'>You can only upload a maximum of 5 images.</p>
+                  )}
                 </div>
+
                 <div className='grid gap-1'>
                   <label className='font-medium'>Category</label>
                   <div>
@@ -249,7 +260,7 @@ const UploadProduct = () => {
                       {
                         allCategory.map((c,index)=>{
                           return(
-                            <option value={c?._id}>{c.name}</option>
+                            <option value={c?._id} key={index}>{c.name}</option>
                           )
                         })
                       }
@@ -293,7 +304,7 @@ const UploadProduct = () => {
                       {
                         allSubCategory.map((c,index)=>{
                           return(
-                            <option value={c?._id}>{c.name}</option>
+                            <option value={c?._id} key={index}>{c.name}</option>
                           )
                         })
                       }
@@ -376,7 +387,7 @@ const UploadProduct = () => {
                   {
                     Object?.keys(data?.more_details)?.map((k,index)=>{
                         return(
-                          <div className='grid gap-1'>
+                          <div className='grid gap-1' key={index}>
                             <label htmlFor={k} className='font-medium'>{k}</label>
                             <input 
                               id={k}
