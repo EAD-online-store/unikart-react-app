@@ -154,7 +154,7 @@ const Login = () => {
               </button>
             </div>
           </div>
-          <Link href="/forgot-password" className="authForgotPassword">
+          <Link to={"/forgot-password"} className="authForgotPassword">
             Forgot password?
           </Link>
           <button type="submit" className="auth-button">
@@ -163,7 +163,7 @@ const Login = () => {
         </form>
         <p className="auth-footer">
           Don't have an account?{" "}
-          <Link href="/register" className="authFooterLink">
+          <Link to={"/register"} className="authFooterLink">
             Register
           </Link>
         </p>
