@@ -5,7 +5,7 @@ import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import AxiosToastError from "../utils/AxiosToastError";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./Register.module.css"; // Update if using CSS modules
+import styles from "./Register.module.css"; // Assuming CSS Modules
 
 const Register = () => {
   const [data, setData] = useState({
@@ -17,6 +17,7 @@ const Register = () => {
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,6 +29,7 @@ const Register = () => {
         [name]: value,
       };
     });
+
     if (error) {
       setError(null);
     }
@@ -80,6 +82,8 @@ const Register = () => {
       return; // Don't submit if form validation fails
     }
 
+    setLoading(true); // Start loading when submission begins
+
     try {
       const response = await Axios({
         ...SummaryApi.register,
@@ -102,6 +106,8 @@ const Register = () => {
       }
     } catch (error) {
       AxiosToastError(error);
+    } finally {
+      setLoading(false); // Stop loading after the request is done
     }
   };
 
@@ -126,7 +132,7 @@ const Register = () => {
               value={data.name}
               onChange={handleChange}
               placeholder="Enter your username"
-              className={styles.inputField} // Using CSS modules
+              className={styles.inputField}
             />
           </div>
           <div className="formGroup">
@@ -138,7 +144,7 @@ const Register = () => {
               value={data.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className={styles.inputField} // Using CSS modules
+              className={styles.inputField}
             />
           </div>
           <div className="formGroup">
@@ -151,7 +157,7 @@ const Register = () => {
                 value={data.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className={styles.inputField} // Using CSS modules
+                className={styles.inputField}
               />
               <button
                 type="button"
@@ -166,17 +172,17 @@ const Register = () => {
           <div className="formGroup">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               id="confirmPassword"
               name="confirmPassword"
               value={data.confirmPassword}
               onChange={handleChange}
               placeholder="Confirm your password"
-              className={styles.inputField} // Using CSS modules
+              className={styles.inputField}
             />
           </div>
-          <button type="submit" className="auth-button">
-            Register
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? <div className="spinner"></div> : "Register"}
           </button>
         </form>
         <p className="auth-footer">

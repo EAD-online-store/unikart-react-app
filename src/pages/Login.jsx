@@ -16,6 +16,7 @@ const Login = () => {
   });
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,36 +39,37 @@ const Login = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
+
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
 
   const validateForm = () => {
-    if (!formData.email || !formData.password) {
+    if (!data.email || !data.password) {
       setError("All fields are required.");
       return false;
     }
-    if (!validateEmail(formData.email)) {
+    if (!validateEmail(data.email)) {
       setError("Please enter a valid email address.");
       return false;
     }
-    if (formData.password.length < 8) {
+    if (data.password.length < 8) {
       setError("Password must be at least 8 characters long.");
       return false;
     }
-    if (!/[A-Z]/.test(formData.password)) {
+    if (!/[A-Z]/.test(data.password)) {
       setError("Password must contain at least one uppercase letter.");
       return false;
     }
-    if (!/[a-z]/.test(formData.password)) {
+    if (!/[a-z]/.test(data.password)) {
       setError("Password must contain at least one lowercase letter.");
       return false;
     }
-    if (!/[0-9]/.test(formData.password)) {
+    if (!/[0-9]/.test(data.password)) {
       setError("Password must contain at least one number.");
       return false;
     }
-    if (!/[!@#$%^&*]/.test(formData.password)) {
+    if (!/[!@#$%^&*]/.test(data.password)) {
       setError(
         "Password must contain at least one special character (!@#$%^&*)."
       );
@@ -76,10 +78,13 @@ const Login = () => {
     return true;
   };
 
-  const valideValue = Object.values(data).every((el) => el);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form before submitting
+    if (!validateForm()) return;
+
+    setLoading(true); // Set loading to true when submitting the form
 
     try {
       const response = await Axios({
@@ -107,8 +112,11 @@ const Login = () => {
       }
     } catch (error) {
       AxiosToastError(error);
+    } finally {
+      setLoading(false); // Reset loading after request is done
     }
   };
+
   return (
     <div className="auth-container">
       <div className="auth-logo">
@@ -157,8 +165,12 @@ const Login = () => {
           <Link to={"/forgot-password"} className="authForgotPassword">
             Forgot password?
           </Link>
-          <button type="submit" className="auth-button">
-            Login
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? (
+              <div className="spinner"></div> // Display spinner while loading
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
         <p className="auth-footer">
