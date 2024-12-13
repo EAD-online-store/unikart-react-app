@@ -2,27 +2,275 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-html{
-    scroll-behavior: smooth;
+html {
+  scroll-behavior: smooth;
+}
+:root {
+  --primary-header-color: #37b24a;
+  --secondary-header-color: #f37b24;
+  --paragraph-color: #878787;
+  --sub-header-color: #1b2729;
+  --light-gray: #f0f6ff;
+  --white: #f3f6fa;
+  --heading-font-size: 2.5rem;
+  --paragraph-font-size: 1rem;
+  --border-radius: 0.625rem;
+  --sub-heading-font-size: 1.5rem;
+  --font-gilroy: "Gilroy", sans-serif;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+
+  @apply bg-blue-50 text-neutral-700 scroll-smooth;
 }
 
-body{
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-    @apply bg-blue-50 text-neutral-700 scroll-smooth
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
-.scrollbar-none::-webkit-scrollbar{
-    display: none;
+.scrollbarCustom::-webkit-scrollbar {
+  width: 10px;
+  @apply bg-slate-100;
+}
+.scrollbarCustom::-webkit-scrollbar-thumb {
+  @apply bg-blue-100 rounded-full;
 }
 
-.scrollbarCustom::-webkit-scrollbar{
-    width: 10px;
-    @apply bg-slate-100
+/* Auth Container */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--light-gray);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
 }
-.scrollbarCustom::-webkit-scrollbar-thumb{
-    @apply bg-blue-100 rounded-full
+
+/* Auth Logo */
+.auth-logo {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Auth Separator (for larger screens) */
+.auth-separator {
+  display: none; /* Hidden by default, shown in large screen */
+  justify-content: center;
+  align-items: center;
+  width: 2px;
+  background-color: var(--primary-header-color);
+}
+
+.separator-line {
+  width: 100%;
+  height: 100%;
+  min-height: 250px; /* Increased height for better visibility */
+}
+
+/* Auth Content */
+.auth-content {
+  width: 100%;
+  max-width: 400px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-title {
+  font-size: var(--heading-font-size);
+  font-weight: bold;
+  color: var(--sub-header-color);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+/* Form Elements */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.formGroup input {
+  padding: 12px;
+  border: 2px solid #dcdcdc;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  font-size: var(--paragraph-font-size);
+  transition: all 0.3s;
+}
+
+.formGroup input:focus {
+  border-color: var(--primary-header-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(55, 178, 74, 0.2);
+}
+
+.formGroup input::placeholder {
+  color: #757575;
+}
+
+.authForgotPassword {
+  color: var(--secondary-header-color);
+  font-size: 0.875rem;
+  text-align: right;
+  margin-bottom: 1.5rem;
+}
+
+.authForgotPassword:hover {
+  color: var(--primary-header-color);
+}
+
+.auth-button {
+  background-color: var(--secondary-header-color);
+  color: var(--white);
+  padding: 12px;
+  border: none;
+  border-radius: var(--border-radius);
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-button:hover {
+  background-color: var(--primary-header-color);
+}
+
+.auth-footer {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.authFooterLink {
+  color: var(--secondary-header-color);
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.authFooterLink:hover {
+  color: var(--primary-header-color);
+}
+
+.formError {
+  color: red;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 50px; /* Adjust to make space for the toggle button */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: #757575; /* You can change the color to match your theme */
+}
+
+.toggle-password:hover {
+  color: var(--primary-header-color);
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+  /* Three-column layout on larger screens */
+  .auth-container {
+    flex-direction: row; /* Arrange items in a row for desktop */
+    width: 80%;
+    max-width: 1000px;
+    margin: 2em auto;
+    height: auto;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+  }
+
+  .auth-logo {
+    width: 35%;
+    margin-bottom: 0;
+  }
+
+  .auth-separator {
+    display: flex; /* Visible only on larger screens */
+    height: auto;
+    margin: 0 20px; /* Space between separator and logo/content */
+  }
+
+  .separator-line {
+    min-height: 300px; /* Set a height to center separator properly */
+  }
+
+  .auth-content {
+    width: 40%;
+  }
+
+  .auth-title {
+    display: block;
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile specific styles */
+  .auth-title {
+    display: none; /* Hide the title on mobile */
+  }
+
+  .auth-container {
+    height: 100vh; /* Full height of the viewport */
+    width: 100vw; /* Full width of the viewport */
+    padding: 10px;
+    justify-content: center;
+  }
+
+  .auth-logo {
+    width: 80%;
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-content {
+    width: 90%;
+    margin-top: 0;
+  }
+
+  .auth-footer {
+    font-size: 0.875rem;
+    margin-top: 1.5rem;
+  }
 }

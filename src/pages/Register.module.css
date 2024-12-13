@@ -1,0 +1,41 @@
+.formError {
+  color: red;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 10px;
+  top: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: #757575; /* Adjust color to match theme */
+}
+
+.togglePassword:hover {
+  color: var(--primary-header-color);
+}
+
+.inputField {
+  border: 2px solid #dcdcdc;
+  border-radius: var(--border-radius);
+  padding: 12px;
+  font-size: var(--paragraph-font-size);
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.inputField:focus {
+  border-color: var(--primary-header-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(55, 178, 74, 0.2);
+}
