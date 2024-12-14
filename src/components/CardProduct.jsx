@@ -15,10 +15,10 @@ const CardProduct = ({ data }) => {
   const user = useSelector((state) => state?.user);
   let url;
 
-  if (user) {
-    url = `/product/${valideURLConvert(data.name)}-${data._id}`;
+  if (!user) {
+    url = "/login";
   }
-  url = `/login`;
+  url = `/product/${valideURLConvert(data.name)}-${data._id}`;
 
   const [loading, setLoading] = useState(false);
 
